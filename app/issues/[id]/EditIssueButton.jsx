@@ -3,7 +3,7 @@ import { Button } from '@radix-ui/themes'
 import Link from 'next/link'
 import React from 'react'
 
-const EditIssueButton = ({issueID}:{issueID:number}) => {
+const EditIssueButton = ({issueID}) => {
   return (
     <Button>
         <Pencil2Icon />
