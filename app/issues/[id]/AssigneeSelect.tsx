@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react'
 import Skeleton from 'react-loading-skeleton';
+import toast,{ Toaster } from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     const { data: users, error, isLoading } = useQuery<User[]>({
@@ -19,11 +20,15 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     if (error) return null;
 
     return (
+        <>
         <Select.Root 
             defaultValue={issue.assignedToUserId || "unassigned"}
             onValueChange={(userId) => {
                 // Send null to the backend if "Unassigned" is selected
-                axios.patch(`/api/issue/${issue.id}`, { assignedToUserId: userId === "unassigned" ? null : userId });
+                axios
+                .patch(`/api/issue/${issue.id}`,
+                     { assignedToUserId: userId === "unassigned" ? null : userId })
+                .catch((error) => toast.error('Failed to update assignee'));
             }}
         >
             <Select.Trigger placeholder='Assign...' />
@@ -38,6 +43,8 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
                 </Select.Group>
             </Select.Content>
         </Select.Root>
+        <Toaster />
+        </>
     )
 }
 
