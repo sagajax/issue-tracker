@@ -16,12 +16,12 @@ export const patchIssueSchema = z.object({
     .min(1, 'Description is too small')
     .max(65535)
     .optional(),
-    assigneeToUserId:z
+    assignedToUserId:z
     .string()
     .min(1, 'Assignee is too small')
     .max(255)
     .optional()
     .nullable(),
-    
+
 
 })
